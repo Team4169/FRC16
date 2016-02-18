@@ -1,7 +1,10 @@
+#include <AutonomousMode.h>
 #include "WPILib.h"
 #include "XboxController.h"
 #include "Subsystems/Shooter.h"
 #include "Subsystems/BallCollector.h"
+#include "ModeNum.h"
+#include <chrono>
 
 class Robot: public IterativeRobot {
 private:
@@ -15,6 +18,12 @@ private:
 	std::unique_ptr<Shooter> shooter;
 	std::unique_ptr<BallCollector> ball_collector;
 
+	// Chooosing an autonomous program
+	SendableChooser* chooser;
+	int slot_number;
+
+	std::chrono::milliseconds ms;
+
 	void RobotInit() {
 		// Robot
 		robot_drive = std::unique_ptr<RobotDrive> (new RobotDrive(1,2,3,4));
@@ -25,6 +34,12 @@ private:
 		// Subsystems
 		shooter = std::unique_ptr<Shooter> (new Shooter());
 		ball_collector = std::unique_ptr<BallCollector> (new BallCollector());
+
+		// Choosing an autonomous program
+		chooser = new SendableChooser();
+		chooser->AddDefault("Low Bar", new AutonomousMode(0));
+		chooser->AddObject("Not Low Bar", new AutonomousMode(1));
+		SmartDashboard::PutData("Autonomous modes:", chooser);
 	}
 
 	void DisabledInit() {
@@ -35,6 +50,21 @@ private:
 	}
 
 	void AutonomousInit() {
+		ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+				std::chrono::system_clock::now().time_since_epoch()
+		);
+		slot_number = ((AutonomousMode*) chooser->GetSelected())->slotnum;
+		switch(slot_number){
+		case slot1: {
+
+		}
+		case slot2: {
+
+		}
+		case slot3: {
+
+		}
+		}
 
 	}
 
