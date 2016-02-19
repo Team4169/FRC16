@@ -42,8 +42,11 @@ private:
 
 		// Choosing an autonomous program
 		chooser = new SendableChooser();
-		chooser->AddDefault("Low Bar", new AutonomousMode(0));
-		chooser->AddObject("Not Low Bar", new AutonomousMode(1));
+		chooser->AddDefault("Slot 1", new AutonomousMode(0));
+		chooser->AddObject("Slot 2", new AutonomousMode(1));
+		chooser->AddObject("Slot 3", new AutonomousMode(2));
+		chooser->AddObject("Slot 4", new AutonomousMode(3));
+		chooser->AddObject("Slot 5", new AutonomousMode(4));
 		SmartDashboard::PutData("Autonomous modes:", chooser);
 	}
 
@@ -69,17 +72,24 @@ private:
 	 * or additional comparisons to the if-else structure below with additional strings & commands.
 	 */
 	void AutonomousInit() {
-		ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-				std::chrono::system_clock::now().time_since_epoch()
-		);
+
 		slot_number = ((AutonomousMode*) chooser->GetSelected())->slotnum;
 		drive_train->DriveDistance(distance1[slot_number]);
 		drive_train->TurnAngle(angle1[slot_number]);
 		drive_train->DriveDistance(distance2[slot_number]);
 		drive_train->TurnAngle(angle2[slot_number]);
 		shooter->run_shooter();
-		//wait some time
-		//put ball into shooter
+		ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+			std::chrono::system_clock::now().time_since_epoch()
+		);
+		while (!ms.count()+500<std::chrono::system_clock::now().time_since_epoch().count()){
+			//waits for 500 ms
+		}
+		ball_collector->Start();
+		while (!ms.count()+1000<std::chrono::system_clock::now().time_since_epoch().count()){
+			//waits for 1000 ms
+		}
+		ball_collector->Stop();
 		shooter->stop_shooter();
 	}
 
