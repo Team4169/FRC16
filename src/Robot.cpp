@@ -26,6 +26,11 @@ private:
 
 	std::chrono::milliseconds ms;
 
+	float distance1[5] = {22.20244104688751*12, 24.60806716851051*12, 17.39119351980729*12, 18.61805812566858*12, 25.83493649053858*12};
+	float angle1[5] = {0, 0, -M_PI/6, M_PI/6, 0};
+	float distance2[5] = {0, 0, 12*25/3, 12*25/3, 0};
+	float angle2[5] = {M_PI/3, M_PI/3, M_PI/2, -M_PI/2, -M_PI/3};
+
 	void RobotInit() {
 		// Input devices
 		controller = std::unique_ptr<XboxController>(new XboxController(0));
@@ -68,23 +73,14 @@ private:
 				std::chrono::system_clock::now().time_since_epoch()
 		);
 		slot_number = ((AutonomousMode*) chooser->GetSelected())->slotnum;
-		switch(slot_number){
-		case slot1: {
-			break;
-		}
-		case slot2: {
-			break;
-		}
-		case slot3: {
-			break;
-		}
-		case slot4: {
-			break;
-		}
-		case slot5: {
-			break;
-		}
-		}
+		drive_train->DriveDistance(distance1[slot_number]);
+		drive_train->TurnAngle(angle1[slot_number]);
+		drive_train->DriveDistance(distance2[slot_number]);
+		drive_train->TurnAngle(angle2[slot_number]);
+		shooter->run_shooter();
+		//wait some time
+		//put ball into shooter
+		shooter->stop_shooter();
 	}
 
 	void AutonomousPeriodic() {
