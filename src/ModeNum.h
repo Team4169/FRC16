@@ -9,7 +9,7 @@
 #define MODENUM_H
 
 enum slot{
-	slot1, slot2, slot3
+	slot1, slot2, slot3, slot4, slot5
 };
 
 

@@ -15,7 +15,6 @@ private:
 
 public:
 	int slotnum;
-	enum slot{slot1, slot2, slot3};
 
 	AutonomousMode(int slot): slotnum(slot){};
 };

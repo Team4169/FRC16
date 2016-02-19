@@ -13,6 +13,8 @@ public:
 	Drivetrain(RobotDrive *drive);
 	void InitDefaultCommand();
 	void drive(float lSpeed, float rSpeed);
+	void drive(float distance);
+	void turn(float angle);
 
 };
 

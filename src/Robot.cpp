@@ -56,13 +56,19 @@ private:
 		slot_number = ((AutonomousMode*) chooser->GetSelected())->slotnum;
 		switch(slot_number){
 		case slot1: {
-
+			break;
 		}
 		case slot2: {
-
+			break;
 		}
 		case slot3: {
-
+			break;
+		}
+		case slot4: {
+			break;
+		}
+		case slot5: {
+			break;
 		}
 		}
 
