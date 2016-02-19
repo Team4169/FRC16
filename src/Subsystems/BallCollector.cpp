@@ -2,7 +2,7 @@
 #include "../RobotMap.h"
 
 BallCollector::BallCollector(): Subsystem("BallCollector") {
-	motor = new Talon(RobotMap::INTAKE_MOTOR);
+	motor = std::unique_ptr<Talon>(new Talon(RobotMap::INTAKE_MOTOR));
 }
 
 void BallCollector::Start() {
@@ -12,5 +12,5 @@ void BallCollector::Stop() {
 	motor->Set(0);
 }
 BallCollector::~BallCollector(){
-	delete motor;
+
 }

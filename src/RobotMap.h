@@ -21,14 +21,15 @@
 //const int RANGE_FINDER_MODULE = 1;
 
 namespace RobotMap {
-	const int FRONT_LEFT_MOTOR = 0;
-	const int BACK_LEFT_MOTOR = 1;
-	const int FRONT_RIGHT_MOTOR = 2;
-	const int BACK_RIGHT_MOTOR = 3;
-	const int RIGHT_SHOOTER_MOTOR = 4;
-	const int LEFT_SHOOTER_MOTOR = 5;
-	const int INTAKE_MOTOR = 6;
-	const int LIFT_MOTOR = 7;
-}
+	const int LEFT_PRIMARY_MOTOR = 2;// Talon
+	const int LEFT_SECONDARY_MOTOR = 3;// Jaguar
 
+	const int RIGHT_PRIMARY_MOTOR = 1;// Tallon
+	const int RIGHT_SECONDARY_MOTOR = 4;// Jaguar
+
+	const int RIGHT_SHOOTER_MOTOR = 5;
+	const int LEFT_SHOOTER_MOTOR = 6;
+
+	const int INTAKE_MOTOR = 8;// Talon
+}
 #endif

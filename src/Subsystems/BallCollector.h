@@ -7,7 +7,7 @@
 class BallCollector: Subsystem {
 
 public:
-	Talon* motor;
+	std::unique_ptr<Talon> motor;
 
 	BallCollector();
 	void Start();

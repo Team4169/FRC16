@@ -2,13 +2,17 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-struct Vector{
+#include <math.h>
 
-	float magnitude;
-	float angle;
+struct Vector {
+	float x;
+	float y;
 
-	Vector(float magnitude, float angle): magnitude(magnitude), angle(angle) {}
-	Vector operator+(Vector& v);
+	Vector(float x, float y);
+
+	float GetAngleRad();
+	float GetMagnitude(bool sign_based_on_quadrant);
+	int GetQuadrant();
 };
 
 #endif

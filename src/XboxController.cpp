@@ -8,29 +8,29 @@
 #include "XboxController.h"
 #include "Math.h"
 
-#define PI 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954930381964428810975665933446128475648233786783165271201909145648566923460348610454326648213393607260249141273724587006606315588174881520920962829254091715364367892590360011330530548820466521384146951941511609433057270365759591953092186117381932611793105118548074462379962749567351885752724891227938183011949129833673362440656643086021394946395224737190702179860943702770539217176293176752384674818467669405132000568127145263560827785771342757789609173637178721468440901224953430146549585371050792279689258923542019956112129021960864034418159813629774771309960518707211349999998372978049
-
 XboxController::XboxController(int port) {
-	portNumber = port;
-	joystick = new Joystick(portNumber);
+	joystick = std::shared_ptr<Joystick>(new Joystick(port));
+
+	LeftStickXOffset = 0;
+	LeftStickYOffset = 0;
+
+	RightStickXOffset = 0;
+	RightStickYOffset = 0;
 }
 
-Vector* XboxController::GetVector(int xId, int yId, float xOffset, float yOffset) {
-	float x = joystick->GetRawAxis(xId);
-	float y = joystick->GetRawAxis(yId);
+Vector* XboxController::GetStickVector(int xId, int yId, float xOffset, float yOffset) {
+	float x = joystick->GetRawAxis(xId) - xOffset;
+	float y = joystick->GetRawAxis(yId) - yOffset;
 
-	float degrees = atan2(y,x);
-	float magnitude = sqrt(x*x+y*y);
-
-	return new Vector(magnitude, degrees);
+	return new Vector(x, y);
 }
 
-Vector* XboxController::GetLeftVector() {
-	return GetVector(LeftJoystickX, LeftJoystickY, LeftStickXOffset, LeftStickYOffset);
+Vector* XboxController::GetLeftStickVector() {
+	return GetStickVector(LeftJoystickX, LeftJoystickY, LeftStickXOffset, LeftStickYOffset);
 }
 
-Vector* XboxController::GetRightVector() {
-	return GetVector(RightJoystickX, RightJoystickY, RightStickXOffset, RightStickYOffset);
+Vector* XboxController::GetRightStickVector() {
+	return GetStickVector(RightJoystickX, RightJoystickY, RightStickXOffset, RightStickYOffset);
 }
 
 bool XboxController::GetButton(int buttonId) {
@@ -52,9 +52,17 @@ bool XboxController::GetDPad(int DPadId) {
 	return DPadId;
 }
 
-float XboxController::GetTrigger (int TriggerId, int TriggerOffset) {
+float XboxController::GetTrigger (int TriggerId, float trigger_offset) {
 	float rawValue = joystick->GetRawAxis(TriggerId);
-	return (rawValue - TriggerOffset) * 2;
+	return (rawValue - trigger_offset) * 2;
+}
+
+float XboxController::GetLeftTrigger() {
+	return GetTrigger(LeftTrigger, LeftTriggerOffset);
+}
+
+float XboxController::GetRightTrigger() {
+	return GetTrigger(RightTrigger, RightTriggerOffset);
 }
 
 void XboxController::Rumble(float value) {
@@ -62,7 +70,12 @@ void XboxController::Rumble(float value) {
 	joystick->SetRumble(Joystick::RumbleType::kRightRumble, value);
 }
 
+void XboxController::Calibrate() {
+	LeftStickXOffset = joystick->GetRawAxis(LeftJoystickX);
+	LeftStickYOffset = joystick->GetRawAxis(LeftJoystickY);
 
-XboxController::~XboxController() {
-	delete joystick;
+	RightStickXOffset = joystick->GetRawAxis(RightJoystickX);
+	RightStickYOffset = joystick->GetRawAxis(RightJoystickY);
 }
+
+XboxController::~XboxController() {}

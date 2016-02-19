@@ -14,7 +14,7 @@
 class XboxController {
 public:
 
-	Joystick* joystick;
+	std::shared_ptr<Joystick> joystick;
 
 	const int ButtonA = 1;
 	const int ButtonB = 2;
@@ -30,19 +30,19 @@ public:
 	const int ButtonLeftJoystickPress = 9;
 	const int ButtonRightJoystickPress = 10;
 
-	const int LeftJoystickX = 1;
-	const int LeftJoystickY = 2;
-	const int RightJoystickX = 3;
-	const int RightJoystickY = 4;
+	const int LeftJoystickX = 0;
+	const int LeftJoystickY = 1;
+	const int RightJoystickX = 4;
+	const int RightJoystickY = 5;
 
-	const int LeftTrigger = 5;
-	const int RightTrigger = 6;
+	const int LeftTrigger = 2;
+	const int RightTrigger = 3;
 
-	const float LeftStickXOffset = 0.5;
-	const float LeftStickYOffset = 0.5;
+	float LeftStickXOffset;
+	float LeftStickYOffset;
 
-	const float RightStickXOffset = 0.5;
-	const float RightStickYOffset = 0.5;
+	float RightStickXOffset;
+	float RightStickYOffset;
 
 	const int DPAD_UP = 0;
 	const int DPAD_UP_RIGHT = 45;
@@ -59,29 +59,22 @@ public:
 	const float LeftTriggerOffset = 0.5f;
 	const float RightTriggerOffset = 0.5f;
 
+	Vector* GetStickVector(int xId, int yId, float xOffset, float yOffset);
+	Vector* GetLeftStickVector();
+	Vector* GetRightStickVector();
 
-
-	Vector* GetVector(int xId, int yId, float xOffset, float yOffset);
-	Vector* GetLeftVector();
-	Vector* GetRightVector();
 	bool GetButton(int buttonId);
 	bool GetDPad(int DPadId);
-	float GetTrigger(int TriggerId, int TriggerOffset);
+
+	float GetTrigger(int TriggerId, float TriggerOffset);
+	float GetLeftTrigger();
+	float GetRightTrigger();
 
 	void Calibrate();
 	void Rumble(float value);
 
-
-
-	int portNumber;
-
-		XboxController(int port);
-		virtual ~XboxController();
-
-
-
-private:
-
+	XboxController(int port);
+	virtual ~XboxController();
 };
 
 #endif /* SRC_XBOXCONTROLLER_H_ */
